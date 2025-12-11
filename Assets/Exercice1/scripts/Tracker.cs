@@ -32,13 +32,13 @@ public class Tracker : MonoBehaviour
         // store more info for future Gizmos. Most of won't ever be used but whatever
         m_prevWorldPos = m_worldPos;
         m_prevLocalPos = m_localPos;
-        m_worldPos = transform.transform.position;
-        m_localPos = transform.transform.localPosition;
+        m_worldPos = transform.position;
+        m_localPos = transform.localPosition;
         m_worldDisplacement = m_worldPos - m_prevWorldPos;
         m_localDisplacement = m_localPos - m_prevLocalPos;
 
         // compute speed in the frame of the 
-        m_worldVelocity = (m_localDisplacement) / Time.deltaTime;
+        m_worldVelocity = (m_worldDisplacement) / Time.deltaTime;
         m_relativeVelocity = transform.InverseTransformDirection(m_worldVelocity);
         m_relativeVelocityMagnitude = m_relativeVelocity.magnitude;
 

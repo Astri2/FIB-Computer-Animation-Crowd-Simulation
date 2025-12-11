@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Tracker))]
 public class Agent : MonoBehaviour
 {
     public float minSpeed = 1.0f;
@@ -12,23 +13,25 @@ public class Agent : MonoBehaviour
     public PathManager pathManager { get; private set; }
 
     public Rigidbody rb { get; private set; }
+    public Tracker tracker { get; private set; }
     private CapsuleCollider capsuleCollider;
     
 
-    void Start()
+    public void Start()
     {
         RandomizeColorAndSpeed();
         pathManager = this.GetComponentInChildren<PathManager>();
         rb = this.GetComponent<Rigidbody>();
+        tracker = this.GetComponent<Tracker>();
         capsuleCollider = this.GetComponentInChildren<CapsuleCollider>();
     }
 
-    private void Update()
+    public void Update()
     {
         capsuleCollider.radius = colliderRadius;
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         this.rb.position += velocity * Time.fixedDeltaTime;
     }
