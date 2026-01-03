@@ -12,7 +12,7 @@ namespace PathFinding{
 	{	
 	// Abstract class that represents a graph (infinite or not), that is at least a function that returns a list of connection for any node
 	
-		public	Graph(){
+		public Graph(){
 
 		}
 	

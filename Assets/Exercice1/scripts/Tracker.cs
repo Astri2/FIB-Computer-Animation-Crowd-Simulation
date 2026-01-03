@@ -19,7 +19,7 @@ public class Tracker : MonoBehaviour
     public Quaternion m_rotation;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Start()
     {
         m_worldPos = transform.position;
         m_localPos = transform.localPosition;
@@ -27,7 +27,7 @@ public class Tracker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         // store more info for future Gizmos. Most of won't ever be used but whatever
         m_prevWorldPos = m_worldPos;

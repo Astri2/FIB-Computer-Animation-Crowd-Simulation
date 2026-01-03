@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 using PathFinding;
@@ -70,7 +71,7 @@ public class Grid : FiniteGraph<GridCell, CellConnection, GridConnections>
         {
             for (int j = 0; j < numColumns; j++)
             {
-                GridCell cell = new GridCell(gridCoordToId(i, j), i, j, gridOrigin, sizeOfCell, obstacleProb);
+                GridCell cell = new GridCell(GridCoordToId(i, j), i, j, gridOrigin, sizeOfCell, obstacleProb);
                 this.nodes.Add(cell);
 
                 GridConnections cellConnections = new GridConnections();
@@ -80,12 +81,12 @@ public class Grid : FiniteGraph<GridCell, CellConnection, GridConnections>
                 if (cell.occupied) continue;
 
                 // try to connect to previous cells (because those are already existing)
-                if (i != 0) addNeighborConnection(gridCoordToId(i - 1, j), cell, cellConnections);
-                if (j != 0) addNeighborConnection(gridCoordToId(i, j - 1), cell, cellConnections);
+                if (i != 0) addNeighborConnection(GridCoordToId(i - 1, j), cell, cellConnections);
+                if (j != 0) addNeighborConnection(GridCoordToId(i, j - 1), cell, cellConnections);
                 if (useDiagonals)
                 {
-                    if(i != 0 && j != 0) addNeighborConnection(gridCoordToId(i - 1, j - 1), cell, cellConnections);
-                    if(i != 0 && j != numColumns - 1) addNeighborConnection(gridCoordToId(i - 1, j + 1), cell, cellConnections);
+                    if(i != 0 && j != 0) addNeighborConnection(GridCoordToId(i - 1, j - 1), cell, cellConnections);
+                    if(i != 0 && j != numColumns - 1) addNeighborConnection(GridCoordToId(i - 1, j + 1), cell, cellConnections);
                 }
             }
         }
@@ -110,13 +111,39 @@ public class Grid : FiniteGraph<GridCell, CellConnection, GridConnections>
         neighborConnections.Add(new CellConnection(neighbor, cell));
     }
 
-    public Vector3 getOrigin()
+    public Vector3 GetOrigin()
     {
         return this.gridOrigin;
     }
 
-    public int gridCoordToId(int i, int j)
+    public int GridCoordToId(int i, int j)
     {
         return i * this.numColumns + j;
     }
+
+    public bool IsCellFree(int i, int j)
+    {
+        int id = GridCoordToId(i, j);
+        
+        // out of the grid, never available
+        if (id >= numCells) return false;
+
+        return !getNode(id).occupied;
+    }
+
+    public int CoordToId(Vector3 pos)
+    {
+        // get coordinates relative to grid origin
+        Vector3 diff = pos - GetOrigin();
+
+        int j = (int)Math.Floor(diff.x / sizeOfCell.x);
+        int i = (int)Math.Floor(diff.z / sizeOfCell.z);
+
+        return GridCoordToId(i, j);
+    }
+
+    public int GetGridCols() => numColumns;
+    public int GetGridRows() => numRows;
+
+    public bool UseDiagonals() => useDiagonals;
 };

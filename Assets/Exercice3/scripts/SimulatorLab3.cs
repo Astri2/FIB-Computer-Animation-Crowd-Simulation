@@ -2,33 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Simulator : MonoBehaviour
+public class SimulatorLab3 : MonoBehaviour
 {
     public float timeStep = 0.025f;
 
     [SerializeField]
-    private List<Agent> agents;
+    private List<AgentLab3> agents;
 
     // hide constructor
-    private Simulator() { 
-        agents = new List<Agent>();
+    private SimulatorLab3() { 
+        agents = new List<AgentLab3>();
     }
 
-    private static Simulator instance;
+    private static SimulatorLab3 instance;
 
-    public static Simulator getInstance()
+    public static SimulatorLab3 getInstance()
     {
         if(instance == null)
         {
             // create a new GO
             GameObject goInstance = new GameObject("Simulator");
             // add a simulator component and set it to our singleton instance
-            instance = goInstance.AddComponent<Simulator>();
+            instance = goInstance.AddComponent<SimulatorLab3>();
         }
         return instance;
     }
 
-    public void AddAgent(Agent agent)
+    public void AddAgent(AgentLab3 agent)
     {
         agents.Add(agent);
     }
@@ -42,7 +42,7 @@ public class Simulator : MonoBehaviour
         }
     }
 
-    public void RemoveAgent(Agent agent)
+    public void RemoveAgent(AgentLab3 agent)
     {
         // If this is often used, we should change the type of agents to a linkedlist for example
         agents.Remove(agent);
@@ -55,14 +55,14 @@ public class Simulator : MonoBehaviour
 
     public void UpdateSimulator(float deltaTime)
     {
-        foreach (Agent agent in agents)
+        foreach (AgentLab3 agent in agents)
         {
-            PathManager pathManager = agent.pathManager;
+            PathManagerLab3 pathManager = agent.pathManager;
             
             // Agent might not be ready yet
             if (pathManager == null) continue;
             
-            Vector3 goal = pathManager.goal;
+            Vector3 goal = pathManager.currentGoal;
             Vector3 toGoal = goal - agent.rb.position;
                 
             Vector3 dir = toGoal.normalized;

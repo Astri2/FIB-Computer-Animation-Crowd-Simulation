@@ -90,12 +90,12 @@ public class GlobalAStar: MonoBehaviour
         pos = new Vector3(pos.x, floorTransform.position.y, pos.z);
 
         // set pos origin on origin of the plane
-        pos -= grid.getOrigin();
+        pos -= grid.GetOrigin();
         // convert float coordinates to grid coordinates
         pos /= cellSize;
         Vector3Int gridCoords = Vector3Int.FloorToInt(pos);
 
-        int id = grid.gridCoordToId(gridCoords.z, gridCoords.x);
+        int id = grid.GridCoordToId(gridCoords.z, gridCoords.x);
 
         GridCell node = grid.getNode(id);
         if (node == null)
